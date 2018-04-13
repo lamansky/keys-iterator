@@ -14,9 +14,13 @@ npm i keys-iterator
 
 The module exports a single function.
 
-### Parameter
+### Parameters
 
-Bindable: `c` (Array, Iterator, Object, Map, Set, or Typed Array)
+1. Bindable: `c` (Array, iterator, Object, Map, Set, string, or Typed Array)
+2. Object argument:
+    * Optional: `arrays` / `maps` / `sets` (array, class, or string): A class that should be treated as equivalent to `Array`/`Map`/`Set` (respectively), the string name of such a class, or an array of such classes/strings.
+    * Optional: `inObj` (boolean): Whether or not to act like the “in” operator by including inherited Object property keys. Only takes effect if `c` is an Object (i.e. not another recognized type). Defaults to `false`.
+    * Optional: `reflectObj` (boolean): Whether or not to use reflection to include non-enumerable Object property keys. Only takes effect if `c` is an Object (i.e. not another recognized type). Defaults to `false`.
 
 ### Return Value
 
@@ -83,6 +87,36 @@ const obj = {key: 'value'}
 obj::keys()
 ```
 
+#### Inherited Object Properties
+
+Include Object property keys from the prototype chain by setting `inObj` to `true`:
+
+```javascript
+const keys = require('keys-iterator')
+
+function Cls () {}
+Cls.prototype.key = 'value'
+
+const i = keys(new Cls(), {inObj: true})
+i.next().value // 'key'
+i.next().done // true
+```
+
+#### Non-Enumerable Object Properties
+
+Include non-enumerable Object property keys by setting `reflectObj` to `true`:
+
+```javascript
+const keys = require('keys-iterator')
+
+const obj = {}
+Object.defineProperty(obj, 'key', {value: 'value', enumerable: false})
+
+const i = keys(obj, {reflectObj: true})
+i.next().value // 'key'
+i.next().done // true
+```
+
 ### Sets
 
 `keys-iterator` will treat a Set like an array, and will yield integer index keys starting at zero. Note that this behavior is different from that of the built-in [`Set.prototype.keys()`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Set/keys) method.
@@ -95,6 +129,19 @@ set.add('first')
 set.add('second')
 
 const i = keys(set)
+i.next().value // 0
+i.next().value // 1
+i.next().done // true
+```
+
+### Strings
+
+`keys-iterator` will treat a string like a character array, and will yield integer index keys starting at zero.
+
+```javascript
+const keys = require('keys-iterator')
+
+const i = keys('hi')
 i.next().value // 0
 i.next().value // 1
 i.next().done // true

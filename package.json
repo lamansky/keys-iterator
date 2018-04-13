@@ -8,6 +8,7 @@
     "map",
     "object",
     "set",
+    "string",
     "typed array",
     "keys",
     "indexes"
@@ -25,6 +26,7 @@
     "is-instance-of": "^1.0.0",
     "is-iterator": "^1.0.1",
     "map-iterable": "^1.0.1",
+    "prop-keys": "^1.0.0",
     "sbo": "^1.0.0",
     "typed-arrays": "^1.0.0"
   },
