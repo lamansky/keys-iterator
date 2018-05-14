@@ -23,8 +23,10 @@
     "node": ">=6.0.0"
   },
   "dependencies": {
+    "empty-iterator": "^1.0.0",
     "is-instance-of": "^1.0.0",
     "is-iterator": "^1.0.1",
+    "is-object": "^1.0.1",
     "map-iterable": "^1.0.1",
     "prop-keys": "^1.0.0",
     "sbo": "^1.0.0",

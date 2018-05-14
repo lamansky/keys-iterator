@@ -101,6 +101,30 @@ describe('keysIterator()', function () {
     assert.strictEqual(i.next().done, true)
   })
 
+  it('should return an empty iterator for undefined', function () {
+    const i = keys()
+    assert(isIterator(i))
+    assert.strictEqual(i.next().done, true)
+  })
+
+  it('should return an empty iterator for null', function () {
+    const i = keys(null)
+    assert(isIterator(i))
+    assert.strictEqual(i.next().done, true)
+  })
+
+  it('should return an empty iterator for a number', function () {
+    const i = keys(123)
+    assert(isIterator(i))
+    assert.strictEqual(i.next().done, true)
+  })
+
+  it('should return an empty iterator for a symbol', function () {
+    const i = keys(Symbol.iterator)
+    assert(isIterator(i))
+    assert.strictEqual(i.next().done, true)
+  })
+
   it('should support the bind operator', function () {
     const i = keys.call(['test'])
     assert(isIterator(i))
